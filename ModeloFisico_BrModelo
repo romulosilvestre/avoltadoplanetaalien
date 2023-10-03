@@ -1,0 +1,83 @@
+/* Lógico_1: */
+
+CREATE TABLE historia (
+    id INT PRIMARY KEY auto_increment,
+    titulo VARCHAR(150),
+    descricao LONGTEXT,
+    final VARCHAR(200)
+);
+
+CREATE TABLE competencia (
+    id INT PRIMARY KEY auto_increment,
+    descricao LONGTEXT,
+    fk_verbo_id INT
+);
+
+CREATE TABLE bloom (
+    id INT PRIMARY KEY auto_increment,
+    nome VARHCAR(40)
+);
+
+CREATE TABLE verbo (
+    id INT PRIMARY KEY auto_increment,
+    nomeverbo VARCHAR(40),
+    fk_bloom_id INT
+);
+
+CREATE TABLE etapa (
+    id INT PRIMARY KEY auto_increment,
+    instrucao LONGTEXT,
+    ponto INT,
+    tipo NCHAR(1),
+    fk_verbo_id INT
+);
+
+CREATE TABLE Missao (
+    id INT PRIMARY KEY auto_increment,
+    hash nchar(22),
+    titulo VARCHAR(80),
+    forca INT,
+    fk_competencia_id INT,
+    fk_etapa_id INT
+);
+
+CREATE TABLE MissaoHistoria (
+    id INT PRIMARY KEY auto_increment,
+    fk_Missao_id INT,
+    fk_historia_id INT
+);
+ 
+ALTER TABLE competencia ADD CONSTRAINT FK_competencia_2
+    FOREIGN KEY (fk_verbo_id)
+    REFERENCES verbo (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE verbo ADD CONSTRAINT FK_verbo_2
+    FOREIGN KEY (fk_bloom_id)
+    REFERENCES bloom (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE etapa ADD CONSTRAINT FK_etapa_2
+    FOREIGN KEY (fk_verbo_id)
+    REFERENCES verbo (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Missao ADD CONSTRAINT FK_Missao_2
+    FOREIGN KEY (fk_competencia_id)
+    REFERENCES competencia (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Missao ADD CONSTRAINT FK_Missao_3
+    FOREIGN KEY (fk_etapa_id)
+    REFERENCES etapa (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE MissaoHistoria ADD CONSTRAINT FK_MissaoHistoria_2
+    FOREIGN KEY (fk_Missao_id)
+    REFERENCES Missao (id)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE MissaoHistoria ADD CONSTRAINT FK_MissaoHistoria_3
+    FOREIGN KEY (fk_historia_id)
+    REFERENCES historia (id)
+    ON DELETE CASCADE;
